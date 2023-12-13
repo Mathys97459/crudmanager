@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-bs-theme="auto">
+<html lang="fr" data-bs-theme="auto">
 
 <head>
 
@@ -123,7 +123,7 @@
                                             @click.prevent="goToCreateForm()"> <i
                                                 class="fas fa-user-plus color-green"></i> Ajouter un nouvel étudiant</a>
                                                 <div class="d-flex mb-2">
-                                                    <input v-model="searchText" type="text" class="form-control me-2" placeholder="Rechercher par nom ou prénom">
+                                                    <input v-model="searchText" type="text" class="form-control me-2" placeholder="Rechercher par nom ou prénom" @keyup.enter="searchStudent()">
                                                     <button @click="searchStudent" class="btn btn-success">Rechercher</button>
                                                 </div>
                                     </div>
@@ -141,20 +141,20 @@
                                         <tr v-for="(student, index) in students" :key="index">
                                             <td class="text-center">
                                                 <span v-if="!student.editing">{{ student.nom }}</span>
-                                                <input v-else v-model="student.nom" class="form-control">
+                                                <input v-else v-model="student.nom" class="form-control" @keyup.enter="saveEditedStudent(student)">
+
                                             </td>
                                             <td class="text-center">
                                                 <span v-if="!student.editing">{{ student.prenom }}</span>
-                                                <input v-else v-model="student.prenom" class="form-control">
+                                                <input v-else v-model="student.prenom" class="form-control" @keyup.enter="saveEditedStudent(student)">
                                             </td>
                                             <td class="text-center">
-                                                <span v-if="!student.editing">{{ student.dateNaissance }}</span>
-                                                <input v-else v-model="newStudent.dateNaissance" type="date"
-                                                    class="form-control">
+                                                <span v-if="!student.editing">{{ formatDate(student.dateNaissance) }}</span>
+                                                <input v-else v-model="student.dateNaissance" type="date" class="form-control" @keyup.enter="saveEditedStudent(student)">
                                             </td>
                                             <td class="text-center">
                                                 <span v-if="!student.editing">{{ student.niveauScolaire }}</span>
-                                                <select v-else v-model="student.niveauScolaire" class="form-select">
+                                                <select v-else v-model="student.niveauScolaire" class="form-select" @keyup.enter="saveEditedStudent(student)">
                                                     <option value="Terminal A">Terminal A</option>
                                                     <option value="Terminal D">Terminal D</option>
                                                     <option value="Terminal C">Terminal C</option>

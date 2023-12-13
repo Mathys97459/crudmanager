@@ -113,6 +113,12 @@ const App = {
           break;
       }
     },
+
+    formatDate(date) {
+      const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+      return new Date(date).toLocaleDateString('fr-FR', options);
+  },
+
     displayStudents() {
       this.students = getLocalDB().map((student) => {
         return { ...student, editing: false }; // Ajoutez la propriété 'editing' à chaque étudiant
