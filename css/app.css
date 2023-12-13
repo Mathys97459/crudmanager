@@ -132,9 +132,7 @@ a{
     margin-left: auto !important;
 }
 
-div.d-flex{
-    flex-wrap: wrap;
-}
+
 #addStudent{
     padding-left: 8px;
 }

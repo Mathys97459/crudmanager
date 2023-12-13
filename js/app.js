@@ -106,6 +106,19 @@ const App = {
           return { ...student, editing: false }; // Ajoutez la propriété 'editing' à chaque étudiant
         });
       },
+      searchStudent() {
+        if (this.searchText.trim() !== '') {
+            // Si le champ de recherche n'est pas vide
+            const searchedStudents = searchStudentByName(this.searchText.trim());
+            // Utilisation de la fonction searchStudentByName avec le texte de recherche
+
+            // Mettre à jour la liste des étudiants à afficher avec les résultats de la recherche
+            this.students = searchedStudents;
+        } else {
+            // Si le champ de recherche est vide, réinitialiser la liste des étudiants
+            this.students = getLocalDB();
+        }
+    },
     clickEditStudent(student) {
       // Mettez à jour l'interface utilisateur ou redirigez vers un formulaire d'édition
       console.log("Édition de l'étudiant:", student);

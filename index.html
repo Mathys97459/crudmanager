@@ -122,7 +122,10 @@
                                         <a href="" id="addStudent" class="btn btn-link d-block color-green"
                                             @click.prevent="goToCreateForm()"> <i
                                                 class="fas fa-user-plus color-green"></i> Ajouter un nouvel étudiant</a>
-                                        <input type="text" name="" id="" class="form-control">
+                                                <div class="d-flex mb-2">
+                                                    <input v-model="searchText" type="text" class="form-control me-2" placeholder="Rechercher par nom ou prénom">
+                                                    <button @click="searchStudent" class="btn btn-primary">Rechercher</button>
+                                                </div>
                                     </div>
                                 </div>
                                 <table class="table table-bordered table-striped">
