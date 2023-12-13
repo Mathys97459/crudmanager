@@ -124,7 +124,7 @@
                                                 class="fas fa-user-plus color-green"></i> Ajouter un nouvel étudiant</a>
                                                 <div class="d-flex mb-2">
                                                     <input v-model="searchText" type="text" class="form-control me-2" placeholder="Rechercher par nom ou prénom">
-                                                    <button @click="searchStudent" class="btn btn-primary">Rechercher</button>
+                                                    <button @click="searchStudent" class="btn btn-success">Rechercher</button>
                                                 </div>
                                     </div>
                                 </div>
@@ -172,7 +172,7 @@
                                                 <button v-else class="btn btn-link"
                                                     @click="saveEditedStudent(student)"><i
                                                         class="fas fa-save"></i></button>
-                                                <button class="btn btn-link" @click="deleteStudent(student)"><i
+                                                <button class="btn btn-link" @click="clickDeleteStudent(student)"><i
                                                         class="fas fa-trash"></i></button>
                                             </td>
                                         </tr>

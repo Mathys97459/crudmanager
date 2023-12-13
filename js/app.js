@@ -30,6 +30,7 @@ const showErrorMessage = (message) => {
 const App = {
   data() {
     return {
+      navigationState: "home",
       showHome: false,
       showCreateForm: false,
       showStudentList: false,
@@ -44,21 +45,32 @@ const App = {
   },
 
   mounted() {
-    this.changeNavigationState("home");
+    const savedState = localStorage.getItem("navigationState");
+    if (savedState) {
+      this.changeNavigationState(savedState);
+    }else{
+      this.changeNavigationState("home");
+    }
     this.displayStudents();
   },
 
   methods: {
     goToHome() {
       this.changeNavigationState("home");
+      this.navigationState = "home";
+      localStorage.setItem("navigationState", this.navigationState);
     },
 
     goToCreateForm() {
       this.changeNavigationState("create");
+      this.navigationState = 'create';
+      localStorage.setItem('navigationState', this.navigationState);
     },
 
     goToStudentList() {
       this.changeNavigationState("list");
+      this.navigationState = 'list';
+      localStorage.setItem('navigationState', this.navigationState);
     },
 
     submitStudent() {
@@ -102,38 +114,44 @@ const App = {
       }
     },
     displayStudents() {
-        this.students = getLocalDB().map(student => {
-          return { ...student, editing: false }; // Ajoutez la propriété 'editing' à chaque étudiant
-        });
-      },
-      searchStudent() {
-        if (this.searchText.trim() !== '') {
-            // Si le champ de recherche n'est pas vide
-            const searchedStudents = searchStudentByName(this.searchText.trim());
-            // Utilisation de la fonction searchStudentByName avec le texte de recherche
-
-            // Mettre à jour la liste des étudiants à afficher avec les résultats de la recherche
-            this.students = searchedStudents;
-        } else {
-            // Si le champ de recherche est vide, réinitialiser la liste des étudiants
-            this.students = getLocalDB();
-        }
+      this.students = getLocalDB().map((student) => {
+        return { ...student, editing: false }; // Ajoutez la propriété 'editing' à chaque étudiant
+      });
+    },
+    searchStudent() {
+      if (this.searchText.trim() !== "") {
+        // Si le champ de recherche n'est pas vide
+        const searchedStudents = searchStudentByName(this.searchText.trim());
+        this.students = searchedStudents;
+      } else {
+        // Si le champ de recherche est vide on réinitialise la liste des étudiants
+        this.students = getLocalDB();
+      }
     },
     clickEditStudent(student) {
-      // Mettez à jour l'interface utilisateur ou redirigez vers un formulaire d'édition
       console.log("Édition de l'étudiant:", student);
     },
     editStudent(student) {
-      student.editing = true; // Ajoutez une propriété 'editing' à l'étudiant pour indiquer l'édition
+      student.editing = true;
     },
     saveEditedStudent(student) {
-      student.editing = false; // Désactivez le mode édition
-      updateStudent(student); // Utilisez la fonction pour mettre à jour l'étudiant dans la base de données
-      // Rafraîchissez la liste des étudiants après la mise à jour
+      if (
+        student.nom.trim() === "" ||
+        student.prenom.trim() === "" ||
+        student.dateNaissance.trim() === "" ||
+        student.niveauScolaire.trim() === ""
+      ) {
+        showErrorMessage(
+          "Veuillez remplir tous les champs avant de sauvegarder les modifications."
+        );
+        return; // Arrêtez l'exécution de la fonction si un champ est vide
+      }
+      student.editing = false;
+      updateStudent(student);
       this.displayStudents();
       showSuccessMessage("L'étudiant(e) a été modifié avec succés");
     },
-    
+
     clickDeleteStudent(student) {
       // Utilisez la fonction deleteStudent du fichier api.js pour supprimer l'étudiant du local storage
       deleteStudent(student);
@@ -143,4 +161,4 @@ const App = {
   },
 };
 
-Vue.createApp(App).mount("#app");
+Vue.createApp(App).mount('#app');
